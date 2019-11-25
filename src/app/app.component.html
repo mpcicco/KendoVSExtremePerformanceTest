@@ -1,20 +1,233 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-2">
+			<button type="button" class="buttonSelector btn btn-dark mt-1"
+				*ngFor="let select of selectorArray let i = index" (click)="updateSelected(i)">
+				{{ select }}
+			</button>
+		</div>
+		<div class="col-10">
+			<div #gird *ngIf="selector == 0">
+				<div class="row">
+					<div class="col-6">
+						<h1>Grid DevExtreme</h1>
+						<dx-data-grid width="100%" [dataSource]="fakeHumans"
+							[rowAlternationEnabled]="true" [showColumnLines]="true" [showRowLines]="true"
+							[showBorders]="true" [sorting]="false" (onCellPrepared)="onCellPrepared($event)" [allowColumnResizing]="true" [columnAutoWidth]="true">
+							<dxo-paging [pageSize]="2"></dxo-paging>
+							<dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[1, 2, 4]" [showInfo]="true">
+							</dxo-pager>
 
+							<dxi-column dataField="name" dataType="string" [caption]="Nome" alignment="center" headerCellTemplate="titleHeaderTemplate"></dxi-column>
+							<dxi-column dataField="surname" dataType="string" [caption]="Cognome" alignment="center"></dxi-column>
+							<dxi-column dataField="age" dataType="number" [caption]="Eta" alignment="center"></dxi-column>
+							<dxi-column dataField="sex" dataType="string" [caption]="Sesso" alignment="center"></dxi-column>
+							<div *dxTemplate="let info of 'titleHeaderTemplate'">
+								<p style="color: red">{{info.column.caption}}</p>
+							</div>
+
+						</dx-data-grid>
+					</div>
+					<div class="col-6">
+						<h1>Grid kendo</h1>
+						<kendo-grid
+							#gridKendo
+							[kendoGridBinding]="fakeHumans"
+							[resizable]="true"
+							(dataStateChange)="onDataStateChange($event)"
+							[pageable]="true"
+							[pageSize]="pageSize"
+							(pageChange)="onPageChange($event)">
+							<kendo-grid-column [headerStyle]="{'text-align': 'center'}" [style]="{'text-align': 'center'}" field="name" title="Name"></kendo-grid-column>
+							<kendo-grid-column [headerStyle]="{'text-align': 'center'}" [style]="{'text-align': 'center'}" field="surname" title="Surname"></kendo-grid-column>
+							<kendo-grid-column [headerStyle]="{'text-align': 'center'}" [style]="{'text-align': 'center'}" field="age" title="Age"></kendo-grid-column>
+							<kendo-grid-column [headerStyle]="{'text-align': 'center'}" [style]="{'text-align': 'center'}" field="sex" title="Sex"></kendo-grid-column>
+
+							<ng-template kendoPagerTemplate>
+								<kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+
+								<kendo-pager-info></kendo-pager-info>
+								<kendo-pager-next-buttons></kendo-pager-next-buttons>
+								<kendo-pager-page-sizes [pageSizes]="[1, 2, 4]"></kendo-pager-page-sizes>
+							</ng-template>
+						</kendo-grid>
+					</div>
+				</div>
+			</div>
+			<div #graph *ngIf="selector == 1">
+				<div class="row">
+					<div class="col-lg-6 col-md-12">
+						<h1>Grid DevExtreme</h1>
+						<dx-data-grid width="100%" [dataSource]="humans" [rowAlternationEnabled]="true" [showColumnLines]="true"
+							[showRowLines]="true" [showBorders]="true" [sorting]="false" (onCellPrepared)="onCellPrepared($event)"
+							[allowColumnResizing]="true" [columnAutoWidth]="true">
+							<dxo-paging [enabled]="false"></dxo-paging>
+
+							<dxi-column dataField="name" dataType="string" [caption]="Nome" alignment="center"
+								headerCellTemplate="titleHeaderTemplate"></dxi-column>
+							<dxi-column dataField="surname" dataType="string" [caption]="Cognome" alignment="center"></dxi-column>
+							<dxi-column dataField="age" dataType="number" [caption]="Eta" alignment="center"></dxi-column>
+							<dxi-column dataField="sex" dataType="string" [caption]="Sesso" alignment="center"></dxi-column>
+							<div *dxTemplate="let info of 'titleHeaderTemplate'">
+								<p style="color: red">{{info.column.caption}}</p>
+							</div>
+
+						</dx-data-grid>
+					</div>
+					<div class="col-lg-6 col-md-12">
+						<h1>Chart DevExtreme</h1>
+						<dx-pie-chart [dataSource]="humans" palette="bright">
+							<dxi-series argumentField="name" valueField="age" tagField="data">
+							</dxi-series>
+							<dxo-legend [visible]="true"></dxo-legend>
+							<dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltipDevExtreme">
+							</dxo-tooltip>
+						</dx-pie-chart>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6 col-md-12">
+						<h1>Grid kendo</h1>
+						<kendo-grid #gridKendo [data]="humans" [resizable]="true" (dataStateChange)="onDataStateChange($event)" [pageable]="true" [pageSize]="2">
+							<kendo-grid-column field="name" title="Name">
+								<ng-template kendoGridHeaderTemplate let-column>
+									<span style="color: red">Name</span>
+								</ng-template>
+							</kendo-grid-column>
+							<kendo-grid-column field="surname" title="Surname"> Cognome</kendo-grid-column>
+							<kendo-grid-column field="age" title="Age"></kendo-grid-column>
+							<kendo-grid-column field="sex" title="Sex"></kendo-grid-column>
+						</kendo-grid>
+					</div>
+					<div class="col-lg-6 col-md-12">
+						<h1>Chart kendo</h1>
+						<kendo-chart>
+							<kendo-chart-tooltip>
+								<ng-template kendoChartSeriesTooltipTemplate let-value="value">
+									L'eta è: {{ value }}
+									<img width="20" alt="Angular Logo"
+										src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+								</ng-template>
+							</kendo-chart-tooltip>
+							<kendo-chart-series>
+								<kendo-chart-series-item type="pie" [data]="humans" field="age" categoryField="name">
+								</kendo-chart-series-item>
+							</kendo-chart-series>
+						</kendo-chart>
+					</div>
+				</div>
+			</div>
+			<div #form *ngIf="selector == 2">
+				<div class="row">
+					<div class="col-5">
+						<h1>Form DevExtreme</h1>
+						<form [formGroup]="formGroup" (submit)="checkAndPrint()">
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Nome </label>
+								<input formControlName="name" class="col-sm-10 form-control">
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Cognome </label>
+								<input formControlName="surname" class="col-sm-10 form-control">
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Data nascita </label>
+								<dx-date-box
+									class="col-sm-10"
+									formControlName="birthDate"
+									type="date"
+									displayFormat="dd/MM/yyyy"
+									width="100%">
+								</dx-date-box>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Age </label>
+								<dx-select-box
+									class="form-control form-control-sm col-sm-10"
+									[dataSource]="humans"
+									valueExpr="age"
+									[searchEnabled]="true"
+									formControlName="sex"
+									[value]="humans[1].name"
+									fieldTemplate="field">
+									<div *dxTemplate="let data of 'field'">
+										<div class="custom-item">
+											<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==" />
+											<dx-text-box class="product-name" [value]="data?.name" [readOnly]="true"></dx-text-box>
+										</div>
+									</div>
+									<div *dxTemplate="let data of 'item'">
+										Il sesso è {{ data.name }}
+									</div>
+								</dx-select-box>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Simpatico? </label>
+								<div class="col-sm-10" style="float: left;">
+									<dx-check-box formControlName="simpa" [value]="false"></dx-check-box>
+								</div>
+							</div>
+							<button [disabled]="formGroup.invalid" type="submit" title="Registra" class="btn btn-primary">
+								Registra
+							</button>
+						</form>
+						<div *ngIf="show && !formGroup.invalid">
+							{{ this.formGroup.value | json }}
+						</div>
+					</div>
+					<div class="col-5">
+						<h1>Form kendo</h1>
+						<form [formGroup]="formGroupKendo" (submit)="checkAndPrintKendo()">
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Nome </label>
+								<input formControlName="name" class="col-sm-10 form-control">
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Cognome </label>
+								<input formControlName="surname" class="col-sm-10 form-control">
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Data nascita </label>
+								<kendo-datepicker class ="col-sm-10" formControlName="birthDate"></kendo-datepicker>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Age </label>
+								<kendo-combobox class ="col-sm-10"
+									[data]="humans"
+									[textField]="'name'"
+            						[valueField]="'age'"
+									[filterable]="true"
+									[value]="humans[0]?.name"
+        							[valuePrimitive]="true"
+									[kendoDropDownFilter]="startsWith"
+									formControlName="sex">
+									<ng-template kendoComboBoxItemTemplate let-dataItem>
+										<span> Il sesso è {{ dataItem?.name }}</span>
+									</ng-template>
+									<ng-template kendoComboBoxHeaderTemplate let-dataItem>
+										Scegli il sesso
+										<img width="20" alt="Angular Logo"
+											src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+									</ng-template>
+								</kendo-combobox>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label"> Simpatico? </label>
+								<div class="col-sm-10" style="float: left;">
+									<dx-check-box formControlName="simpa" [value]="false"></dx-check-box>
+								</div>
+							</div>
+							<button [disabled]="formGroupKendo.invalid" type="submit" title="Registra" class="btn btn-primary">
+								Registra
+							</button>
+						</form>
+						<div *ngIf="showKendo && !formGroupKendo.invalid">
+							{{ this.formGroupKendo.value | json }}
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

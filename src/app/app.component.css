@@ -1,0 +1,18 @@
+.buttonSelector {
+	width: 100%;
+	padding-bottom: 15px;
+
+}
+
+.redText {
+	color: red;
+}
+
+.redBack {
+	background-color: red;
+}
+
+.codeColumn {
+	background-color: #FFBA80;
+}
+
